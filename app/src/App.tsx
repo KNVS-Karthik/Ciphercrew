@@ -2,7 +2,9 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { Routes, Route } from 'react-router-dom';
 import { Login } from './pages/Login';
+import { ChatDashboard } from './pages/ChatDashboard';
 import { Navigation } from './components/Navigation';
 import { CustomCursor } from './components/CustomCursor';
 import { ParticleField } from './components/ParticleField';
@@ -18,6 +20,34 @@ import { siteConfig } from './config';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function LandingPage() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <div className="noise-overlay" />
+      <CustomCursor />
+      <ParticleField />
+      <Navigation />
+      <main>
+        <Hero />
+        <Features />
+        <Messaging />
+        <Games />
+        <WatchTogether />
+        <MysteryCases />
+        <CTA />
+        <Footer />
+      </main>
+    </div>
+  );
+}
+
 function AppContent() {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -28,14 +58,6 @@ function AppContent() {
     if (siteConfig.language) {
       document.documentElement.lang = siteConfig.language;
     }
-
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   if (isLoading) {
@@ -51,31 +73,10 @@ function AppContent() {
   }
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Noise texture overlay */}
-      <div className="noise-overlay" />
-
-      {/* Custom cursor */}
-      <CustomCursor />
-
-      {/* Particle field */}
-      <ParticleField />
-
-      {/* Navigation */}
-      <Navigation />
-
-      {/* Main content */}
-      <main>
-        <Hero />
-        <Features />
-        <Messaging />
-        <Games />
-        <WatchTogether />
-        <MysteryCases />
-        <CTA />
-        <Footer />
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/chat" element={<ChatDashboard />} />
+    </Routes>
   );
 }
 
