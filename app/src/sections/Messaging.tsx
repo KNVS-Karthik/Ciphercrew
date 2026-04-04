@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { messagingConfig } from '../config';
 import { Check, CheckCheck, Mic, Paperclip, Smile, Send, Lock } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -300,10 +301,10 @@ export function Messaging() {
             </div>
 
             {/* CTA */}
-            <button className="group flex items-center gap-3 text-[#ea0000] font-medium hover:gap-4 transition-all">
+            <Link to="/chat" className="group flex items-center gap-3 text-[#ea0000] font-medium hover:gap-4 transition-all">
               Start Chatting
               <span className="w-6 h-px bg-[#ea0000] group-hover:w-8 transition-all" />
-            </button>
+            </Link>
           </div>
         </div>
       </div>
