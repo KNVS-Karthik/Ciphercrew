@@ -186,6 +186,10 @@ class SocketService {
     this.socket?.emit('typing_stop', { roomId });
   }
 
+  sendMessageEvent(roomId: string, message: any) {
+    this.socket?.emit('new_message', { roomId, message });
+  }
+
   // Call methods
   initiateCall(roomId: string, callType: 'voice' | 'video', targetUserId?: string) {
     this.socket?.emit('call_initiate', { roomId, callType, targetUserId });
