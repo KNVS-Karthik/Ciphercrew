@@ -31,11 +31,11 @@ export interface NavigationConfig {
 export const navigationConfig: NavigationConfig = {
   logo: "CipherCrew",
   items: [
-    { label: "Home", href: "/#hero" },
+    { label: "Home", href: "/" },
     { label: "Messages", href: "/chat" },
-    { label: "Games", href: "/#games" },
-    { label: "Watch Together", href: "/#watch" },
-    { label: "Mystery", href: "/#mystery" },
+    { label: "Games", href: "/games" },
+    { label: "Watch Together", href: "/watch" },
+    { label: "Mystery", href: "/mystery" },
   ],
 };
 
@@ -138,6 +138,7 @@ export interface GameItem {
   category: string;
   description: string;
   image: string;
+  embedUrl?: string;
   featured?: boolean;
 }
 
@@ -157,6 +158,7 @@ export const gamesConfig: GamesConfig = {
       category: "Classic",
       description: "The timeless board game for 2-4 players",
       image: "/game-ludo.jpg",
+      embedUrl: "https://www.crazygames.com/embed/ludo-king",
       featured: true,
     },
     {
@@ -165,6 +167,7 @@ export const gamesConfig: GamesConfig = {
       category: "Strategy",
       description: "Master the game of kings",
       image: "/game-chess.jpg",
+      embedUrl: "https://lichess.org/tv/frame",
     },
     {
       id: 3,
@@ -172,6 +175,7 @@ export const gamesConfig: GamesConfig = {
       category: "Classic",
       description: "Buy, sell, and trade your way to victory",
       image: "/game-monopoly.jpg",
+      embedUrl: "https://www.crazygames.com/embed/monopoly",
     },
     {
       id: 4,
@@ -179,6 +183,7 @@ export const gamesConfig: GamesConfig = {
       category: "Classic",
       description: "Strike and pocket in this precision game",
       image: "/game-carroms.jpg",
+      embedUrl: "https://www.crazygames.com/embed/carrom-pool",
     },
     {
       id: 5,
@@ -186,20 +191,23 @@ export const gamesConfig: GamesConfig = {
       category: "Skill",
       description: "How high can you go before it falls?",
       image: "/game-jenga.jpg",
+      embedUrl: "https://www.crazygames.com/embed/jenga",
     },
     {
       id: 6,
-      title: "Monopoly 18+",
-      category: "Adult",
-      description: "A spicier version for grown-up game nights",
-      image: "/game-monopoly-18.jpg",
+      title: "Uno",
+      category: "Classic",
+      description: "The classic family card game",
+      image: "/game-uno.jpg",
+      embedUrl: "https://www.crazygames.com/embed/uno-online",
     },
     {
       id: 7,
-      title: "Jenga 18+",
-      category: "Adult",
-      description: "Truth or dare meets tower stacking",
-      image: "/game-jenga-18.jpg",
+      title: "8 Ball Pool",
+      category: "Skill",
+      description: "Sink the 8 ball to win the game",
+      image: "/game-pool.jpg",
+      embedUrl: "https://www.crazygames.com/embed/8-ball-billiards-classic",
     },
   ],
 };
@@ -334,17 +342,17 @@ export const footerConfig: FooterConfig = {
   marqueeText: "Encrypted Squad Endless Vibes",
   marqueeHighlightChars: ["E", "S", "E", "V"],
   navLinks1: [
-    { label: "Home", href: "#hero" },
-    { label: "Messages", href: "#messaging" },
-    { label: "Games", href: "#games" },
+    { label: "Home", href: "/" },
+    { label: "Messages", href: "/chat" },
+    { label: "Games", href: "/games" },
   ],
   navLinks2: [
-    { label: "Watch Together", href: "#watch" },
-    { label: "Mystery Cases", href: "#mystery" },
+    { label: "Watch Together", href: "/watch" },
+    { label: "Mystery Cases", href: "/mystery" },
     { label: "Privacy", href: "#" },
   ],
   ctaText: "Get Started",
-  ctaHref: "#hero",
+  ctaHref: "/",
   copyright: "© 2024 CipherCrew. All rights reserved.",
   tagline: "Encrypted squad, endless vibes",
 };
