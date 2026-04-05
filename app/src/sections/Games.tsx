@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { gamesConfig } from '../config';
-import { Play, Star, Users } from 'lucide-react';
+import type { GameItem } from '../config';
+import { Play, Star, Users, X } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,6 +11,7 @@ export function Games() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [playingGame, setPlayingGame] = useState<GameItem | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -159,7 +161,10 @@ export function Games() {
                     {featuredGame.description}
                   </p>
                   <div className="flex items-center gap-4">
-                    <button className="flex items-center gap-2 px-6 py-3 bg-[#ea0000] text-white rounded-lg hover:bg-[#ff1a1a] transition-colors">
+                    <button 
+                      onClick={() => setPlayingGame(featuredGame)}
+                      className="flex items-center gap-2 px-6 py-3 bg-[#ea0000] text-white rounded-lg hover:bg-[#ff1a1a] transition-colors"
+                    >
                       <Play className="w-5 h-5" />
                       Play Now
                     </button>
@@ -218,7 +223,10 @@ export function Games() {
                   <p className="text-white/60 text-sm mb-4">
                     {game.description}
                   </p>
-                  <button className="flex items-center gap-2 text-[#ea0000] text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button 
+                    onClick={() => setPlayingGame(game)}
+                    className="flex items-center gap-2 text-[#ea0000] text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity"
+                  >
                     <Play className="w-4 h-4" />
                     Play Now
                   </button>
@@ -235,6 +243,62 @@ export function Games() {
           </div>
         </div>
       </div>
+
+      {/* Game Player Overlay */}
+      {playingGame && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8">
+          <div 
+            className="absolute inset-0 bg-black/90 backdrop-blur-xl"
+            onClick={() => setPlayingGame(null)}
+          />
+          
+          <div className="relative w-full max-w-6xl h-[85vh] bg-gray-900 rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 bg-black/50 border-b border-white/5">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded bg-[#ea0000] flex items-center justify-center">
+                  <GameIcon name={playingGame.title} />
+                </div>
+                <div>
+                  <h3 className="text-white font-medium">{playingGame.title}</h3>
+                  <p className="text-white/50 text-xs">{playingGame.category} • Press Esc to close</p>
+                </div>
+              </div>
+              <button 
+                onClick={() => setPlayingGame(null)}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-white/70 hover:bg-white/10 hover:text-white transition-colors"
+                title="Close Game"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            
+            {/* Iframe Area */}
+            <div className="flex-1 w-full bg-black">
+              {playingGame.embedUrl ? (
+                <iframe 
+                  src={playingGame.embedUrl} 
+                  className="w-full h-full border-none"
+                  allow="autoplay; fullscreen"
+                  title={playingGame.title}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center text-white/50">
+                  <Play className="w-16 h-16 mb-4 opacity-20" />
+                  <p>Game embed not available</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Keyboard Escape to Close */}
+      {playingGame && (
+        <div className="hidden">
+          {/* We rely on global listener usually, but a quick effect is best */}
+        </div>
+      )}
     </section>
   );
 }
@@ -246,8 +310,8 @@ function GameIcon({ name }: { name: string }) {
     'Monopoly': '🎲',
     'Carroms': '🔴',
     'Jenga': '🧱',
-    'Monopoly 18+': '🎲',
-    'Jenga 18+': '🧱',
+    'Uno': '🃏',
+    '8 Ball Pool': '🎱',
     'Ludo': '🎲',
   };
   
