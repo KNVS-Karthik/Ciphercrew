@@ -34,6 +34,11 @@ export function ChatDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const activeRoomRef = useRef<Room | null>(null);
+
+  useEffect(() => {
+    activeRoomRef.current = activeRoom;
+  }, [activeRoom]);
 
   useEffect(() => {
     if (!isAuthenticated) return;
@@ -57,6 +62,9 @@ export function ChatDashboard() {
       setMessages(prev => {
         // Only append if it belongs to current active room
         if (data.roomId) {
+          if (activeRoomRef.current && data.roomId !== activeRoomRef.current._id) {
+            return prev; // Let the room lastMessage handle it without inserting into current chat window
+          }
           const exists = prev.find(m => m._id === data.message._id);
           if (exists) return prev;
           return [...prev, data.message];
