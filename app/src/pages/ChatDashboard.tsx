@@ -56,8 +56,9 @@ export function ChatDashboard() {
     const handleNewMessage = (data: any) => {
       setMessages(prev => {
         // Only append if it belongs to current active room
-        // Actually, we must bind activeRoom state correctly, but for simplicity:
         if (data.roomId) {
+          const exists = prev.find(m => m._id === data.message._id);
+          if (exists) return prev;
           return [...prev, data.message];
         }
         return prev;
@@ -176,10 +177,10 @@ export function ChatDashboard() {
         <Navigation />
       </div>
 
-      <div className="flex w-full max-w-7xl mx-auto h-[calc(100vh-100px)] mt-[100px] bg-[#111] rounded-t-3xl border border-white/10 z-10 overflow-hidden shadow-2xl">
+      <div className="flex w-full max-w-7xl mx-auto h-[calc(100vh-100px)] mt-[100px] bg-[#111] md:rounded-t-3xl border-t md:border border-white/10 z-10 overflow-hidden shadow-2xl relative">
         
         {/* Sidebar */}
-        <div className="w-80 border-r border-white/10 flex flex-col bg-black/50">
+        <div className={`w-full md:w-80 border-r border-white/10 flex-col bg-black/50 ${activeRoom ? 'hidden md:flex' : 'flex'}`}>
           <div className="p-4 border-b border-white/10 flex justify-between items-center">
             <Link to="/" className="text-white/50 hover:text-white transition-colors">
               <ArrowLeft className="w-5 h-5" />
@@ -237,12 +238,15 @@ export function ChatDashboard() {
         </div>
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col bg-[#0a0a0a]">
+        <div className={`flex-1 flex-col bg-[#0a0a0a] ${!activeRoom ? 'hidden md:flex' : 'flex'}`}>
           {activeRoom ? (
             <>
               {/* Header */}
-              <div className="h-16 border-b border-white/10 flex items-center justify-between px-6 bg-black/40">
-                <div className="flex items-center gap-3">
+              <div className="h-16 border-b border-white/10 flex items-center justify-between px-4 md:px-6 bg-black/40 shadow-sm">
+                <div className="flex items-center gap-2 md:gap-3">
+                  <button onClick={() => setActiveRoom(null)} className="md:hidden p-2 text-white/50 hover:text-white transition-colors">
+                    <ArrowLeft className="w-5 h-5" />
+                  </button>
                   <div className="font-semibold">{activeRoom.name}</div>
                   {activeRoom.type === 'group' && <div className="text-xs px-2 py-0.5 rounded-full bg-white/10 text-white/50">{activeRoom.members.length} members</div>}
                 </div>
