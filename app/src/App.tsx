@@ -20,6 +20,21 @@ import { siteConfig } from './config';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function PageLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      <div className="noise-overlay" />
+      <CustomCursor />
+      <ParticleField />
+      <Navigation />
+      <main>
+        {children}
+        <Footer />
+      </main>
+    </div>
+  );
+}
+
 function LandingPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -76,6 +91,9 @@ function AppContent() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/chat" element={<ChatDashboard />} />
+      <Route path="/games" element={<PageLayout><Games /></PageLayout>} />
+      <Route path="/watch" element={<PageLayout><WatchTogether /></PageLayout>} />
+      <Route path="/mystery" element={<PageLayout><MysteryCases /></PageLayout>} />
     </Routes>
   );
 }
