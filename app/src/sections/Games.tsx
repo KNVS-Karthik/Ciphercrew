@@ -7,7 +7,7 @@ import { Play, Star, Users, X } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function Games() {
+export function Games() { 
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
