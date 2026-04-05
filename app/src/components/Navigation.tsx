@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Menu, X, Lock, LogOut, User } from 'lucide-react';
 import { navigationConfig } from '../config';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,6 +16,8 @@ export function Navigation() {
   const [isVisible, setIsVisible] = useState(true);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const lastScrollY = useRef(0);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,10 +62,29 @@ export function Navigation() {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
+    setIsMobileMenuOpen(false);
+
+    // If it's a specific route like '/chat'
+    if (href === '/chat') {
+      navigate('/chat');
+      return;
+    }
+
+    // Clean href (support both '#hero' and '/#hero')
+    const hash = href.includes('#') ? '#' + href.split('#')[1] : href;
+
+    if (location.pathname !== '/') {
+      // Not on home page, navigate to home then scroll
+      navigate('/' + hash);
+      // Let the browser handle the scroll after navigation
+      setTimeout(() => {
+        const target = document.querySelector(hash);
+        target?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      // Already on home, just scroll
+      const target = document.querySelector(hash);
+      target?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
