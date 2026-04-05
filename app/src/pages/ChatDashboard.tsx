@@ -130,10 +130,10 @@ export function ChatDashboard() {
       const res = await messageAPI.sendMessage(activeRoom._id, text);
       const newMsg = res.data.message;
       setMessages(prev => [...prev, newMsg]);
-      // Also emit to others (backend might do this automatically or we wait for 'new_message')
-      // Wait, the backend currently does NOT emit `new_message` on POST api!
-      // Looking at `messages.js`, it just saves. Socket needs to be notified. 
-      // Actually, if we must emit via socket, we should do it, but for now we just append directly.
+      
+      // Emit the message via WebSocket for instant delivery to receiver
+      socketService.sendMessageEvent(activeRoom._id, newMsg);
+
       setRooms(prevRooms => prevRooms.map(r => 
         r._id === activeRoom._id ? { ...r, lastMessage: newMsg } : r
       ));
