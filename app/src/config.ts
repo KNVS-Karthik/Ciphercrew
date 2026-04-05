@@ -31,11 +31,11 @@ export interface NavigationConfig {
 export const navigationConfig: NavigationConfig = {
   logo: "CipherCrew",
   items: [
-    { label: "Home", href: "#hero" },
-    { label: "Messages", href: "#messaging" },
-    { label: "Games", href: "#games" },
-    { label: "Watch Together", href: "#watch" },
-    { label: "Mystery", href: "#mystery" },
+    { label: "Home", href: "/#hero" },
+    { label: "Messages", href: "/chat" },
+    { label: "Games", href: "/#games" },
+    { label: "Watch Together", href: "/#watch" },
+    { label: "Mystery", href: "/#mystery" },
   ],
 };
 
